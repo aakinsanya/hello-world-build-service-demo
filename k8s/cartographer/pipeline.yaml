@@ -1,0 +1,42 @@
+---
+apiVersion: carto.run/v1alpha1
+kind: ClusterSupplyChain
+metadata:
+  name: dev-tbs-ci
+spec:
+  selector:
+    apps.tanzu.vmware.com/workload-type: web
+  params:
+    - name: tagPrefix
+      value: leketbs.azurecr.io/
+  resources:
+    #Clones git repo and monitors for changes
+    - name: source-provider
+      templateRef:
+        kind: ClusterSourceTemplate
+        name: workload-git-repository #Defined in get-git-source-template.yaml
+
+    #Applies a kpack image yaml to trigger an image build by TBS
+    - name: image-builder
+      templateRef:
+        kind: ClusterImageTemplate
+        name: workload-kpack-image #Defined in build-image-template.yaml
+      sources:
+        - resource: source-provider
+          name: new-source
+
+    #Watches for changes in the sha hash of the latest container image
+    #Deploys a k8s deployment
+    - name: deployer-app
+      templateRef:
+        kind: ClusterTemplate
+        name: workload-k8s-deployment #Defined in deploy-app-template.yaml
+      images:
+        - resource: image-builder
+          name: new-image
+          
+    #Configures a k8s service
+    - name: service-deployer
+      templateRef:
+        kind: ClusterTemplate
+        name: workload-k8s-service #Defined in build-image-template.yaml

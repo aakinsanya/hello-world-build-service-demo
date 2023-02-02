@@ -1,0 +1,16 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  labels:
+    apps.tanzu.vmware.com/workload-type: web
+  name: hello-world
+spec:
+  serviceAccountName: default
+  source:
+    git:
+      url: #Add git repo here
+      ref:
+        branch: main
+  params:
+    - name: containerPort
+      value: 8080

@@ -1,0 +1,22 @@
+apiVersion: carto.run/v1alpha1
+kind: ClusterImageTemplate
+metadata:
+  name: workload-kpack-image
+spec:
+  imagePath: .status.latestImage
+  template:
+    apiVersion: kpack.io/v1alpha1
+    kind: Image
+    metadata:
+      name: $(workload.metadata.name)$
+      labels:
+        app.kubernetes.io/part-of: $(workload.metadata.name)$
+    spec:
+      tag: $(params.tagPrefix)$$(workload.metadata.name)$
+      serviceAccount: default
+      builder:
+        kind: ClusterBuilder
+        name: default
+      source:
+        blob:
+          url: $(source.url)$

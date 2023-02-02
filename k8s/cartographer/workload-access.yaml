@@ -1,0 +1,46 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: workload-role-binding
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: workload-cluster-role-namespaced-resources
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: ServiceAccount
+    name: default
+    apiGroup: ""
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: workload-cluster-role-namespaced-resources
+rules:
+  - apiGroups:
+      - source.toolkit.fluxcd.io
+      - kpack.io
+      - carto.run
+      - apps
+      - ""
+      - networking.k8s.io
+      - packaging.carvel.dev
+    resources:
+      - gitrepositories
+      - images
+      - services
+      - runnables
+      - deployments
+      - services
+      - ingresses
+      - configmaps
+      - packagerepositories
+      - packageinstalls
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+      - patch
+      - watch
