@@ -13,10 +13,10 @@ Scenarios
 5. Update stack and watch your app get rebased
 
 Useful links
-https://cartographer.sh/docs/v0.6.0/
-https://github.com/wagoodman/dive
-https://paketo.io/docs/
-https://github.com/vmware-tanzu/kpack-cli
-https://github.com/pivotal/kpack
-https://buildpacks.io/
-https://fluxcd.io/flux/
+1. https://cartographer.sh/docs/v0.6.0/
+2. https://github.com/wagoodman/dive
+3. https://paketo.io/docs/
+4. https://github.com/vmware-tanzu/kpack-cli
+5. https://github.com/pivotal/kpack
+6. https://buildpacks.io/
+7. https://fluxcd.io/flux/
